@@ -10,7 +10,7 @@ function App() {
 
   const sendClickCountToAPI = useCallback(async () => {
     try {
-      await axios.post('YOUR_API_ENDPOINT', { clickCount });
+      await axios.post('https://webhook.site/bd11b5a9-a2b5-45a2-af5a-09b10cf85ced', { clickCount });
       console.log('Click count sent to API');
     } catch (error) {
       console.error('Error sending click count to API:', error);
