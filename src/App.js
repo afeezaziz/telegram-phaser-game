@@ -1,12 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Phaser from 'phaser';
 import axios from 'axios';
 import { TonConnectButton, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 
 function App() {
   const [clickCount, setClickCount] = useState(0);
-  const [tonConnectUI] = useTonConnectUI();
+  const [_tonConnectUI] = useTonConnectUI(); // Prefixed with underscore to indicate intentional non-use
   const userAddress = useTonAddress();
+
+  const sendClickCountToAPI = useCallback(async () => {
+    try {
+      await axios.post('YOUR_API_ENDPOINT', { clickCount });
+      console.log('Click count sent to API');
+    } catch (error) {
+      console.error('Error sending click count to API:', error);
+    }
+  }, [clickCount]);
 
   useEffect(() => {
     const config = {
@@ -47,16 +56,7 @@ function App() {
     if (clickCount > 0 && clickCount % 10 === 0) {
       sendClickCountToAPI();
     }
-  }, [clickCount]);
-
-  const sendClickCountToAPI = async () => {
-    try {
-      await axios.post('https://webhook.site/bd11b5a9-a2b5-45a2-af5a-09b10cf85ced', { clickCount });
-      console.log('Click count sent to API');
-    } catch (error) {
-      console.error('Error sending click count to API:', error);
-    }
-  };
+  }, [clickCount, sendClickCountToAPI]);
 
   return (
     <div className="App">
