@@ -9,12 +9,24 @@ function App() {
 
   const sendClickCountToAPI = useCallback(async () => {
     try {
-      await axios.post('https://webhook.site/bd11b5a9-a2b5-45a2-af5a-09b10cf85ced', { clickCount });
-      console.log('Click count sent to API');
+      const data = {
+        clickCount: clickCount,
+        // Add any other relevant data here
+        userAddress: userAddress || 'Not connected',
+        timestamp: new Date().toISOString()
+      };
+
+      const response = await axios.post('https://apedex.online/app/update-clicks', data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log('Click count sent to API', response.data);
     } catch (error) {
       console.error('Error sending click count to API:', error);
     }
-  }, [clickCount]);
+  }, [clickCount, userAddress]);
 
   useEffect(() => {
     const config = {
