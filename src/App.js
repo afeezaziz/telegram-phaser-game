@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Phaser from 'phaser';
 import axios from 'axios';
-import { TonConnectButton, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
+import { TonConnectButton, useTonAddress } from '@tonconnect/ui-react';
 
 function App() {
   const [clickCount, setClickCount] = useState(0);
-  const [_tonConnectUI] = useTonConnectUI(); // Prefixed with underscore to indicate intentional non-use
   const userAddress = useTonAddress();
 
   const sendClickCountToAPI = useCallback(async () => {
